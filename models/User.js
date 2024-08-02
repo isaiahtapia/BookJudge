@@ -2,7 +2,13 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 // create our Traveller model
-class User extends Model {}
+class User extends Model {
+
+  validatePassword(formPassword){
+    return formPassword === this.password;
+  }
+
+}
 
 // create fields/columns for User model
 User.init(
@@ -13,7 +19,7 @@ User.init(
       primaryKey: true,
       autoIncrement: true
     },
-    name: {
+    username: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -23,6 +29,13 @@ User.init(
       unique: true,
       validate: {
         isEmail: true
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: 6
       }
     }
   },
