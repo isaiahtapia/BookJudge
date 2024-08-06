@@ -1,18 +1,13 @@
+{{!-- reviews.handlebars --}}
 <h1>Welcome, {{user.username}}</h1>
-<h3>Your Reviews:</h3>
-<container>
-    <ul>
-        <li>
-            <h3>Review Title</h3>
-            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui minus, consequuntur incidunt commodi architecto doloribus dolor! Magnam quisquam labore, cum assumenda eius perferendis ut sapiente voluptates maiores necessitatibus nisi nulla.</p>
-        </li>
-        <li>
-            <h3>Review Title</h3>
-            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui minus, consequuntur incidunt commodi architecto doloribus dolor! Magnam quisquam labore, cum assumenda eius perferendis ut sapiente voluptates maiores necessitatibus nisi nulla.</p>
-        </li>
-        <li>
-            <h3>Review Title</h3>
-            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui minus, consequuntur incidunt commodi architecto doloribus dolor! Magnam quisquam labore, cum assumenda eius perferendis ut sapiente voluptates maiores necessitatibus nisi nulla.</p>
-        </li>
-    </ul>
-</container>
+<h1>Your Reviews</h1>
+<ul>
+  {{#each reviews}}
+    <li>
+      <h3>Book ID: {{this.bookId}}</h3>
+      <p>{{this.review}}</p>
+    </li>
+  {{/each}}
+</ul>
+<script src="/js/review.js"></script>
+
