@@ -33,19 +33,20 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Login route
+
+// Login Route
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({ where: { email: req.body.email } });
 
         if (!user) {
-            return res.redirect('/register'); // Redirect to register if user not found
+            return res.render('login', { error: 'User not found. Please register.' });
         }
 
         const validPassword = await bcrypt.compare(req.body.password, user.password);
 
         if (!validPassword) {
-            return res.redirect('/login'); // Redirect to login if password is invalid
+            return res.render('login', { error: 'Invalid password. Please try again.' });
         }
 
         req.session.user_id = user.id;
@@ -56,6 +57,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Logout Route
 router.post('/logout', (req, res) => {
     if (req.session.user_id) {
         req.session.destroy(err => {

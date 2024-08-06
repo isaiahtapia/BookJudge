@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Review } = require('../models');
+const { withAuth } = require('../js/auth');
 
 router.get('/', async (req, res) => {
     try {
@@ -11,7 +12,7 @@ router.get('/', async (req, res) => {
 });
 
 // update route to handle POST request for writing reviews using the new models
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
     try {
         const { bookId, review } = req.body;
         const userId = req.session.user_id;
