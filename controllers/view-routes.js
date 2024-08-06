@@ -8,6 +8,7 @@ function redirectGuest(req, res, next) {
     next();
 }
 
+// two routes to main - one for anonymous visitors & one for logged-in users
 router.get('/', async (req, res) => {
     res.render('homepage', { user: req.session.user_id ? await User.findByPk(req.session.user_id) : null });
 });
@@ -20,6 +21,10 @@ router.get('/login', async (req, res) => {
     res.render('login');
 })
 
+router.get('/write-review', redirectGuest, async (req, res) => {
+    res.render('write-review', { user: req.session.user_id ? await User.findByPk(req.session.user_id) : null });
+});
+
 router.get('/reviews', redirectGuest, async (req, res) => {
     const user = await User.findByPk(req.session.user_id);
     res.render('reviews', {
@@ -27,6 +32,7 @@ router.get('/reviews', redirectGuest, async (req, res) => {
             plain:true
         })
     });
-})
+});
+
 
 module.exports = router;
