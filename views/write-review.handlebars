@@ -1,0 +1,11 @@
+{{!-- write-review.handlebars --}}
+<h1>Write a Review</h1>
+<form action="/api/reviews" method="POST">
+    <label for="bookId">Book ID:</label>
+    <input type="text" id="bookId" name="bookId" required>
+    
+    <label for="review">Review:</label>
+    <textarea id="review" name="review" rows="5" cols="50" required></textarea>
+    
+    <button type="submit">Submit</button>
+</form>

@@ -9,8 +9,8 @@ function redirectGuest(req, res, next) {
 }
 
 router.get('/', async (req, res) => {
-    res.render('homepage');
-})
+    res.render('homepage', { user: req.session.user_id ? await User.findByPk(req.session.user_id) : null });
+});
 
 router.get('/register', async (req, res) => {
     res.render('register');

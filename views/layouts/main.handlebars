@@ -3,10 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Bookish Banter</title>
 </head>
 <body>
-    <h1>Hello Everyone</h1>
+    {{#if user}}
+    <!-- Nav for logged-in users -->
+    <nav>
+        <ul>
+            <li><a href="/reviews">My Reviews</a></li>
+            <li><a href="/write-review">Write Review</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </nav>
+    {{else}}
+    <!-- Nav for visitors -->
+    <nav>
+        <ul>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+        </ul>
+    </nav>
+    {{/if}}
     {{{body}}}
 </body>
 </html>

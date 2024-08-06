@@ -42,5 +42,11 @@ router.post('/login', async (req, res) => {
     res.redirect('/reviews');
 });
 
+router.get('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/');
+    });
+});
+
 module.exports = router;
 
