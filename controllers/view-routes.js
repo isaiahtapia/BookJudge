@@ -9,7 +9,24 @@ function redirectGuest(req, res, next) {
 }
 
 router.get('/', async (req, res) => {
-    res.render('homepage', { user: req.session.user_id ? await User.findByPk(req.session.user_id) : null });
+    try {
+        // Fetch the 10 most recent reviews
+        const recentReviews = await Review.findAll({
+            limit: 10,
+            order: [['createdAt', 'DESC']],
+            include: [{ model: User, attributes: ['username'] }]
+        });
+
+        const reviews = recentReviews.map(review => review.get({ plain: true }));
+
+        res.render('homepage', {
+            user: req.session.user_id ? await User.findByPk(req.session.user_id) : null,
+            reviews
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json(err);
+    }
 });
 
 router.get('/register', async (req, res) => {

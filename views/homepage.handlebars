@@ -1,3 +1,21 @@
-<body>
-<h2>Home Page</h2>
-</body>
+<h1>Welcome to Bookish Banter</h1>
+
+{{#if user}}
+  <p>Hello, {{user.username}}!</p>
+  <a href="/write-review">Write a Review</a>
+{{else}}
+  <a href="/login">Login</a>
+  <a href="/register">Register</a>
+{{/if}}
+
+<h2>Recent Reviews</h2>
+<ul>
+    {{#each reviews}}
+        <li>
+            <h3>Book ID: {{this.bookId}}</h3>
+            <p>{{this.review}}</p>
+            <p><strong>Reviewed by:</strong> {{this.User.username}}</p>
+            <p><em>{{this.createdAt}}</em></p>
+        </li>
+    {{/each}}
+</ul>

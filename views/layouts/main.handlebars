@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookish Banter</title>
 </head>
+
 <body>
-    {{#if user}}
-    <!-- Nav for logged-in users -->
     <nav>
-        <ul>
-            <li><a href="/reviews">My Reviews</a></li>
-            <li><a href="/write-review">Write Review</a></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
+        {{#if user}}
+        <a href="/reviews">My Reviews</a>
+        <a href="/write-review">Write Review</a>
+        <form action="/users/logout" method="POST" style="display: inline;">
+            <button type="submit">Logout</button>
+        </form>
+        {{else}}
+        <a href="/login">Login</a>
+        <a href="/register">Register</a>
+        {{/if}}
     </nav>
-    {{else}}
-    <!-- Nav for visitors -->
-    <nav>
-        <ul>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">Register</a></li>
-        </ul>
-    </nav>
-    {{/if}}
     {{{body}}}
 </body>
+
 </html>

@@ -23,7 +23,7 @@ Review.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'user', // Use lowercase model name to avoid circular dependency
+        model: 'User', // Reference the User model as a string
         key: 'id',
       },
     },
