@@ -1,13 +1,25 @@
-{{!-- reviews.handlebars --}}
-<h1>Welcome, {{user.username}}</h1>
-<h1>Your Reviews</h1>
+<h1>My Reviews</h1>
 <ul>
-  {{#each reviews}}
-    <li>
-      <h3>Book ID: {{this.bookId}}</h3>
-      <p>{{this.review}}</p>
-    </li>
-  {{/each}}
+    {{#each reviews}}
+        <li>
+            <h3>Book ID: {{this.bookId}}</h3>
+            <p>{{this.review}}</p>
+            <p><strong>Reviewed by:</strong> {{this.User.username}}</p>
+            <p><em>{{this.createdAt}}</em></p>
+            <a href="/reviews/edit/{{this.id}}">Edit</a>
+            <form action="/reviews/delete/{{this.id}}" method="POST" style="display: inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    {{/each}}
 </ul>
-<script src="/js/review.js"></script>
-
+<div>
+    {{#if pagination}}
+        {{#if pagination.current > 1}}
+            <a href="?page={{subtract pagination.current 1}}">Previous</a>
+        {{/if}}
+        {{#if pagination.current < pagination.total}}
+            <a href="?page={{add pagination.current 1}}">Next</a>
+        {{/if}}
+    {{/if}}
+</div>

@@ -33,24 +33,57 @@ router.post('/', withAuth, async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+// Add route to get the edit review page
+router.get('/edit/:id', withAuth, async (req, res) => {
     try {
-        const reviewData = await Review.destroy({
-            where: {
-                id: req.params.id,
-                userId: req.session.user_id
-            }
-        });
+        const reviewData = await Review.findByPk(req.params.id);
 
         if (!reviewData) {
             res.status(404).json({ message: 'No review found with this id!' });
             return;
         }
 
-        res.status(200).json(reviewData);
+        const review = reviewData.get({ plain: true });
+
+        res.render('edit-review', {
+            review,
+            user: req.session.user_id
+        });
     } catch (err) {
+        console.error(err);
         res.status(500).json(err);
     }
 });
+
+// Add route to update a review
+router.post('/edit/:id', withAuth, async (req, res) => {
+    try {
+        await Review.update(
+            { review: req.body.review },
+            { where: { id: req.params.id, userId: req.session.user_id } }
+        );
+
+        res.redirect('/reviews');
+    } catch (err) {
+        console.error(err);
+        res.status(500).json(err);
+    }
+});
+
+// Add route to delete a review
+router.post('/delete/:id', withAuth, async (req, res) => {
+    try {
+        await Review.destroy({
+            where: { id: req.params.id, userId: req.session.user_id }
+        });
+
+        res.redirect('/reviews');
+    } catch (err) {
+        console.error(err);
+        res.status(500).json(err);
+    }
+});
+
+module.exports = router;
 
 module.exports = router;
