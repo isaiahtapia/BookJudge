@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const Review = require('./Review');
 
 class User extends Model {
   validatePassword(formPassword) {
@@ -43,5 +44,10 @@ User.init(
     modelName: 'User'
   }
 );
+
+User.hasMany(Review, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE'
+});
 
 module.exports = User;

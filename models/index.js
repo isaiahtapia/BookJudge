@@ -1,7 +1,7 @@
 const User = require('./User');
 const Review = require('./Review');
 
-// Establish associations
+// Ensure the associations are established
 User.hasMany(Review, {
   foreignKey: 'userId',
   onDelete: 'CASCADE'

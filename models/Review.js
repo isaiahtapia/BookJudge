@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-const User = require('./User'); // Import the User model
+const User = require('./User'); // Ensure this path is correct
 
 class Review extends Model {}
 

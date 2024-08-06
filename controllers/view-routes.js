@@ -26,8 +26,10 @@ router.get('/reviews', redirectGuest, async (req, res) => {
             include: [{ model: Review }]
         });
 
-        //get user's reviews or generate blank map if empty
         const reviews = user.reviews ? user.reviews.map(review => review.get({ plain: true })) : [];
+
+        console.log('User:', user.get({ plain: true }));
+        console.log('Reviews:', reviews);
 
         res.render('reviews', {
             user: user.get({ plain: true }),
@@ -38,6 +40,7 @@ router.get('/reviews', redirectGuest, async (req, res) => {
         res.status(500).json(err);
     }
 });
+
 
 router.get('/write-review', redirectGuest, async (req, res) => {
     res.render('write-review', { user: req.session.user_id ? await User.findByPk(req.session.user_id) : null });

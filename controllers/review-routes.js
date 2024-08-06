@@ -10,14 +10,24 @@ router.get('/', async (req, res) => {
     }
 });
 
+// update route to handle POST request for writing reviews using the new models
 router.post('/', async (req, res) => {
     try {
-        const newReview = await Review.create({
-            ...req.body,
-            userId: req.session.user_id
+        const { bookId, review } = req.body;
+        const userId = req.session.user_id;
+        if (!userId) {
+            return res.status(401).json({ message: 'You need to be logged in to submit a review.' });
+        }
+
+        await Review.create({
+            bookId,
+            review,
+            userId
         });
-        res.status(200).json(newReview);
+
+        res.redirect('/reviews');
     } catch (err) {
+        console.error(err);
         res.status(500).json(err);
     }
 });

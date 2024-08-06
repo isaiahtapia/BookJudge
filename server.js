@@ -1,22 +1,17 @@
 require('dotenv').config();
-
 const path = require('path');
 const express = require('express');
-const {engine} = require('express-handlebars');
-const session = require("express-session");
-const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const controllers = require('./controllers'); 
-
+const { engine } = require('express-handlebars');
+const session = require('express-session');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./config/connection');
+const routes = require('./controllers'); // Ensure correct path to your routes
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Inform Express.js on which template engine to use
-app.engine('handlebars', engine({
-  // any additional handlebars setup / helpers / params
-
-}));
+// Set up Handlebars.js engine with custom helpers
+app.engine('handlebars', engine({}));
 app.set('view engine', 'handlebars');
 
 app.use(express.json());
@@ -29,7 +24,7 @@ app.use(
     store: new SequelizeStore({
       db: sequelize,
     }),
-    resave: false, // we support the touch method so per the express-session docs this should be set to false
+    resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true
@@ -37,10 +32,10 @@ app.use(
   })
 );
 
-// turn on controllers
-app.use(controllers); 
+// Turn on routes
+app.use(routes);
 
-// turn on connection to db and server
-sequelize.sync({ force: true }).then(() => {
+// Sync sequelize models to the database, then turn on the server
+sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log('Now listening'));
 });
