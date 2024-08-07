@@ -11,13 +11,12 @@
 <h2>Recent Reviews</h2>
 <ul>
     {{#each reviews}}
-        <li>
-            <h3>Book ID: {{this.bookId}}</h3>
-            <p>{{this.review}}</p>
-            <p><strong>Reviewed by:</strong> {{this.User.username}}</p>
-            <p><em>{{this.createdAt}}</em></p>
-        </li>
-    {{/each}}
+    <div class="review">
+        <h2>{{bookId}}</h2>
+        <p>{{review}}</p>
+        <small>Posted by {{User.username}} on {{formattedDate}}</small>
+    </div>
+{{/each}}
     {{#unless reviews}}
         <h2>No reviews have been submitted yet...</h2>
     {{/unless}}

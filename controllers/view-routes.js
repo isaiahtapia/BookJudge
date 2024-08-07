@@ -17,7 +17,19 @@ router.get('/', async (req, res) => {
         const recentReviews = await Review.findAll({
             limit: 10,
             order: [['createdAt', 'DESC']],
-            include: [{ model: User, attributes: ['username'] }]
+            attributes: {
+                include: [
+                    [literal(`to_char("created_at", 'Mon DD YYYY')`), 'formattedDate'],
+                    'id',
+                    'bookId',
+                    'review',
+                    'userId'
+                ]
+            },
+            include: [{
+                model: User,
+                    attributes: ['username']
+            }]
         });
 
         const reviews = recentReviews.map(review => review.get({ plain: true }));
@@ -69,8 +81,6 @@ router.get('/reviews', withAuth, async (req, res) => {
                 }
             }]
         });
-
-
 
         const reviews = user.Reviews ? user.Reviews.map(review => review.get({ plain: true })) : [];
 

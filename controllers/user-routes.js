@@ -1,9 +1,17 @@
 const router = require('express').Router();
 const { User } = require('../models');
+const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const { withAuth } = require('../js/auth');
+const { Op } = require('sequelize')
 
+// Logging middleware for debugging
+router.use((req, res, next) => {
+    console.log(`Request URL: ${req.url}`);
+    console.log(`Request Method: ${req.method}`);
+    next();
+});
 
 // its path is /api/user/
 router.get('/', async (req, res) => {
@@ -20,17 +28,18 @@ router.post('/register', async (req, res) => {
     try {
         console.log('Register form submitted');
 
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = await User.create({
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password,
+            password: hashedPassword,
         });
         
         req.session.user_id = user.id;
         res.redirect('/');
     } catch (err) {
         console.error(err);
-        return res.render('register', {error: err.errors[0].message});
+        res.status(500).json(err);
     }
 });
 
@@ -44,7 +53,7 @@ router.post('/login', async (req, res) => {
             return res.render('login', { error: 'User not found. Please register.' });
         }
 
-        const validPassword = await user.validatePassword(req.body.password);
+        const validPassword = await bcrypt.compare(req.body.password, user.password);
 
         if (!validPassword) {
             return res.render('login', { error: 'Invalid password. Please try again.' });
@@ -54,7 +63,7 @@ router.post('/login', async (req, res) => {
         res.redirect('/');
     } catch (err) {
         console.error(err);
-        return res.render('login', { error: 'Error occurred, please try again.' });
+        res.status(500).json(err);
     }
 });
 
@@ -97,11 +106,17 @@ router.post('/profile', withAuth, async (req, res) => {
             { username, email },
             { where: { id: req.session.user_id } }
         );
-        res.redirect('/users/profile');
+        res.redirect('/profile');
     } catch (err) {
         console.error(err);
         res.status(500).json(err);
-    }
+    } 
+});
+
+// Route to render forgot password page
+router.get('/forgot-password', (req, res) => {
+    console.log('Forgot Password Route Hit');
+    res.render('forgot-password');
 });
 
 // Forgot password route
@@ -167,7 +182,6 @@ router.get('/reset-password/:token', async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 
 router.post('/reset-password/:token', async (req, res) => {
     try {
