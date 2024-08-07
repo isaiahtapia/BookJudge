@@ -1,0 +1,13 @@
+{{!-- write-review.handlebars --}}
+
+<h1 class="label">Write a Review</h1>
+<form action="/reviews" method="POST">
+    <label class="label" for="bookId">Book ID:</label>
+    <input class="input" type="text" id="bookId" name="bookId" required>
+    
+    <label class="label"for="review">Review:</label>
+    <textarea class="textarea" id="review" name="review" rows="5" cols="50" required></textarea>
+    
+    <button class="button is-link" type="submit">Submit</button>
+</form>
+ 

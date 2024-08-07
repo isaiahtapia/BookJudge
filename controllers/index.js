@@ -1,13 +1,14 @@
 const router = require('express').Router();
-const apiRoutes = require('./api');
-const view_routes = require('./view-routes');
-const user_routes = require('./user-routes');
+const userRoutes = require('./user-routes');
+const viewRoutes = require('./view-routes');
+const reviewRoutes = require('./review-routes'); // Ensure you include this
 
-router.use('/', [view_routes, user_routes]);
-router.use('/api', apiRoutes);
+router.use('/', viewRoutes);
+router.use('/users', userRoutes);
+router.use('/reviews', reviewRoutes); // Ensure you use this
 
 router.use((req, res) => {
-  res.send("<h1>Wrong Route!</h1>")
+  res.send("<h1>Wrong Route!</h1>");
 });
 
 module.exports = router;

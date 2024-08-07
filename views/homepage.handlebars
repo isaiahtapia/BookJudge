@@ -1,3 +1,23 @@
-<body>
-<h2>Home Page</h2>
-</body>
+<h1><Strong>Welcome to BookJudge!</Strong></h1>
+
+{{#if user}}
+  <p>Hello, {{user.username}}!</p>
+  <a href="/write-review">Write a Review</a>
+{{else}}
+  <a href="/login">Login</a>
+  <a href="/register">Register</a>
+{{/if}}
+
+<h2><strong>Recent Reviews:</strong></h2>
+<ul>
+    {{#each reviews}}
+    <div class="review">
+        <h2>{{bookId}}</h2>
+        <p>{{review}}</p>
+        <small>Posted by {{User.username}} on {{formattedDate}}</small>
+    </div>
+{{/each}}
+    {{#unless reviews}}
+        <h2>No reviews have been submitted yet...</h2>
+    {{/unless}}
+</ul>

@@ -1,27 +1,20 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const Review = require('./Review');
+const bcrypt = require('bcrypt');
 
-// create our Traveller model
 class User extends Model {
-
-  validatePassword(formPassword){
-    return formPassword === this.password;
+  async validatePassword(formPassword) {
+    return await bcrypt.compare(formPassword, this.password);
   }
-
 }
 
-// create fields/columns for User model
 User.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
     username: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     email: {
       type: DataTypes.STRING,
@@ -37,6 +30,12 @@ User.init(
       validate: {
         len: 6
       }
+    },
+    resetPasswordToken: {
+      type: DataTypes.STRING,
+    },
+    resetPasswordExpires: {
+      type: DataTypes.DATE,
     }
   },
   {
@@ -44,8 +43,19 @@ User.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'User'
+    modelName: 'User',
+    hooks: {
+      async beforeCreate(user){
+        user.password = await bcrypt.hash(user.password, 10);
+        return user;
+      }
+    }
   }
 );
+
+User.hasMany(Review, {
+  foreignKey: 'userId',
+  onDelete: 'CASCADE'
+});
 
 module.exports = User;
