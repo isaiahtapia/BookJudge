@@ -52,7 +52,7 @@ To begin the installing of this application, you will need to install packages:
 
 The live site may be viewed at the following URL:
 
-- [Deployed Application](https://bookjudge.onrender.com//)
+- [Deployed Application](https://bookjudge.onrender.com/)
 
 <details>
   <summary>Screenshot of the webapp</summary>
