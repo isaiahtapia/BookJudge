@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { User } = require('../models');
-const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const { withAuth } = require('../js/auth');
@@ -21,18 +20,17 @@ router.post('/register', async (req, res) => {
     try {
         console.log('Register form submitted');
 
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = await User.create({
             username: req.body.username,
             email: req.body.email,
-            password: hashedPassword,
+            password: req.body.password,
         });
         
         req.session.user_id = user.id;
         res.redirect('/');
     } catch (err) {
         console.error(err);
-        res.status(500).json(err);
+        return res.render('register', {error: err.errors[0].message});
     }
 });
 
@@ -46,7 +44,7 @@ router.post('/login', async (req, res) => {
             return res.render('login', { error: 'User not found. Please register.' });
         }
 
-        const validPassword = await bcrypt.compare(req.body.password, user.password);
+        const validPassword = await user.validatePassword(req.body.password);
 
         if (!validPassword) {
             return res.render('login', { error: 'Invalid password. Please try again.' });
@@ -56,7 +54,7 @@ router.post('/login', async (req, res) => {
         res.redirect('/');
     } catch (err) {
         console.error(err);
-        res.status(500).json(err);
+        return res.render('login', { error: 'Error occurred, please try again.' });
     }
 });
 
@@ -99,7 +97,7 @@ router.post('/profile', withAuth, async (req, res) => {
             { username, email },
             { where: { id: req.session.user_id } }
         );
-        res.redirect('/profile');
+        res.redirect('/users/profile');
     } catch (err) {
         console.error(err);
         res.status(500).json(err);

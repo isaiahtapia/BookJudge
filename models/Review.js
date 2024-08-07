@@ -5,12 +5,6 @@ class Review extends Model {}
 
 Review.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     bookId: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -23,7 +17,7 @@ Review.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'User', // Reference the User model as a string
+        model: 'User', // Use lowercase model name to avoid circular dependency
         key: 'id',
       },
     },

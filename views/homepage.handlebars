@@ -18,4 +18,7 @@
             <p><em>{{this.createdAt}}</em></p>
         </li>
     {{/each}}
+    {{#unless reviews}}
+        <h2>No reviews have been submitted yet...</h2>
+    {{/unless}}
 </ul>

@@ -1,21 +1,16 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const Review = require('./Review');
+const bcrypt = require('bcrypt');
 
 class User extends Model {
-  validatePassword(formPassword) {
-    return formPassword === this.password;
+  async validatePassword(formPassword) {
+    return await bcrypt.compare(formPassword, this.password);
   }
 }
 
 User.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
-    },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -33,7 +28,7 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [6]
+        len: 6
       }
     },
     resetPasswordToken: {
@@ -48,7 +43,13 @@ User.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'User'
+    modelName: 'User',
+    hooks: {
+      async beforeCreate(user){
+        user.password = await bcrypt.hash(user.password, 10);
+        return user;
+      }
+    }
   }
 );
 

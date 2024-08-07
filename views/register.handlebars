@@ -1,4 +1,7 @@
 <h1>Register</h1>
+{{#if error}}
+    <p style="color:red;">{{error}}</p>
+{{/if}}
 <form action="/users/register" method="POST">
     <div>
         <label for="username">Username</label>
