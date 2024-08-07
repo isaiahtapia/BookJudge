@@ -1,1 +1,39 @@
-<h1>Welcome, {{user.username}}</h1>
+<h1>My Reviews</h1>
+<form action="/reviews" method="GET">
+    <input type="text" name="search" placeholder="Search reviews..." value="{{search}}">
+    <button type="submit">Search</button>
+</form>
+<ul>
+    {{#if reviews}}
+    {{#each reviews}}
+    <div class="box">
+        <article class="media">
+            <div class="media-content">
+                <li class="content">
+                    <h3>Book ID: {{this.bookId}}</h3>
+                    <p>{{this.review}}</p>
+                    <p><em>{{this.formattedDate}}</em></p>
+                    <a href="/reviews/edit/{{this.id}}">Edit</a>
+                    <form action="/reviews/delete/{{this.id}}" method="POST" style="display: inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            </div>
+        </article>
+    </div>
+   
+    {{/each}}
+    {{else}}
+    <h2>You haven't written any reviews yet...</h2>
+    {{/if}}
+</ul>
+<div>
+    {{#if pagination}}
+    {{#if multiPage}}
+    <a href="?page={{subtract pagination.current 1}}">Previous</a>
+    {{/if}}
+    {{#if showNext}}
+    <a href="?page={{add pagination.current 1}}">Next</a>
+    {{/if}}
+    {{/if}}
+</div>

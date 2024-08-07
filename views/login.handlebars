@@ -1,7 +1,21 @@
- <h1>Login</h1>
-
-<form class="auth-form" action="/login" method="POST">
-    <input type="email" name="email" placeholder="Enter your email">
-    <input type="password" name="password" placeholder="Enter your password">
-    <button>Login</button>
+<h1>Login</h1>
+{{#if error}}
+    <p style="color:red;">{{error}}</p>
+{{/if}}
+<form class="box" action="/users/login" method="POST">
+    <div class="field">
+        <label class="label" for="email">Email</label>
+        <div class="control">
+            <input class="input" type="email" id="email" name="email" required> 
+        </div>
+    </div>
+    <div class="field">
+        <label class="label" for="password">Password</label>
+        <div class="control">
+            <input class="input" type="password" id="password" name="password" required>
+        </div>
+    </div>
+    <button class="button is-success" type="submit">Login</button>
 </form>
+<a href="/forgot-password">Forgot Password?</a>
+<p>Don't have an account? <a href="/register">Register here</a>.</p>

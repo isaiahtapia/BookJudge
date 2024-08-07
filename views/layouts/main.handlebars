@@ -1,12 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-    <h1>Hello Everyone</h1>
-    {{{body}}}
+    <header>
+        <nav class="navbar n" role="navigation" aria-label="main navigation">
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="/"><Strong>BookJudge</Strong></a>
+                    <a class="navbar-item" href="/"><Strong>Home</Strong></a>
+                    {{#if user}}
+                    <div class="navbar-item">
+                        <div class="navbar-dropdown"></div>
+                        <a class="navbar-item" href="/reviews"><Strong>My Reviews</Strong></a>
+                        <a class="navbar-item" href="/write-review"><Strong>Write Review</Strong></a>
+                    </div>
+                </div>
+
+                <div class="navbar-end">
+                    <a class="navbar-item" href="/users/profile"><Strong>My Account</Strong></a>
+                    <form class="navbar-item" action="/users/logout" method="POST" style="display: inline;">
+                        <div class="buttons">
+                            <button class="button is-light" type="submit"><Strong>Logout</Strong></button>
+                        </div>
+                    </form>
+                </div>
+
+                {{else}}
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="field is-grouped">
+                            <div class="buttons">
+                                <a class="button is-light" href="/register"><Strong>Sign Up</Strong></a>
+                                <a class="button is-light" href="/login"><strong>Login</strong></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+        </nav>
+    </header>
+    <div class="background-image">
+        <div class="box container ">
+            {{{body}}}
+        </div>
+    </div>
 </body>
+
+<footer class="footer footer-container py-4">
+    <div class="content has-text-centered">
+        <p>&copy; 2024 BookJudge. All rights reserved.</p>
+    </div>
+</footer>
+
 </html>

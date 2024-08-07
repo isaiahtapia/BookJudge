@@ -1,0 +1,11 @@
+<h1>Edit Review</h1>
+<form action="/reviews/edit/{{review.id}}" method="POST">
+    <div>
+        <label for="review">Review</label>
+        <textarea id="review" name="review" required>{{review.review}}</textarea>
+    </div>
+    <button type="submit">Update Review</button>
+</form>
+<form action="/reviews/delete/{{review.id}}" method="POST">
+    <button type="submit">Delete Review</button>
+</form>
