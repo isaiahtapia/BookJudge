@@ -34,7 +34,7 @@ Our project fulfills the following requirements:
 
 ## Links
 
-- [Deployed Application](https://lockaa.github.io/marvel-mantras/)
+- [Deployed Application](https://bookjudge.onrender.com/)
 - [GitHub Repository](https://github.com/isaiahtapia/BookJudge)
 
 ## Installation
@@ -52,7 +52,7 @@ To begin the installing of this application, you will need to install packages:
 
 The live site may be viewed at the following URL:
 
-- [Deployed Application](https://lockaa.github.io/marvel-mantras/)
+- [Deployed Application](https://bookjudge.onrender.com//)
 
 <details>
   <summary>Screenshot of the webapp</summary>
